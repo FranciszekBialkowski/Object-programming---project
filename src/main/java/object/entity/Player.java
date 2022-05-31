@@ -42,12 +42,12 @@ public class Player extends Entity{
 
     // ustawienie domyślnych wartości
     public void setDefaultValues(){
-        worldX = gp.tileSize * 23;
-        worldY= gp.tileSize * 23;
+        worldX = gp.tileSize * 27;
+        worldY= gp.tileSize * 25;
         speed = 4;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/white.jpg")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/fireMage_down.png")));
         }catch (IOException e){
             e.printStackTrace();
         }

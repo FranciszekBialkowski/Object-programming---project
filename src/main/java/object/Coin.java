@@ -25,7 +25,7 @@ public class Coin {
 
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/yellow.jpg")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/coin.png")));
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -19,7 +19,7 @@ public class TileManager {
     public TileManager(GamePanel gp){
         this.gp = gp;
 
-        tiles = new Tile[3];
+        tiles = new Tile[10];
         mapTileNumbers = new int[gp.maxWorldColumn][gp.maxWorldRow];
 
         getTileImage();
@@ -31,10 +31,33 @@ public class TileManager {
 
         try {
             tiles[0] = new Tile();
-            tiles[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/green.jpg")));
+            tiles[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/wall.png")));
+            tiles[0].collision = true;
             tiles[1] = new Tile();
-            tiles[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/black.jpg")));
+            tiles[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/smallTree.png")));
             tiles[1].collision = true;
+            tiles[2] = new Tile();
+            tiles[2].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/bigTree_upper.png")));
+            tiles[2].collision = true;
+            tiles[3] = new Tile();
+            tiles[3].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/bigTree_lower.png")));
+            tiles[3].collision = true;
+            tiles[4] = new Tile();
+            tiles[4].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/grass.png")));
+            tiles[5] = new Tile();
+            tiles[5].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/black.jpg")));
+            tiles[6] = new Tile();
+            tiles[6].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/campfire_upleft.png")));
+            tiles[6].collision = true;
+            tiles[7] = new Tile();
+            tiles[7].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/campfire_upright.png")));
+            tiles[7].collision = true;
+            tiles[8] = new Tile();
+            tiles[8].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/campfire_downleft.png")));
+            tiles[8].collision = true;
+            tiles[9] = new Tile();
+            tiles[9].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/campfire_downright.png")));
+            tiles[9].collision = true;
         } catch (IOException e){
             e.printStackTrace();
         }

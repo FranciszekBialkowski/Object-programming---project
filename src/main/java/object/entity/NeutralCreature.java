@@ -17,7 +17,7 @@ public class NeutralCreature extends Entity{
         speed = 1;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/brown.jpg")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/pig_down.png")));
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -20,7 +20,7 @@ public class SmallCreature extends Entity{
         hitBox.height = gp.tileSize/2-1;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/gray.png")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/rat_down.png")));
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -23,7 +23,7 @@ public class AgressiveCreature extends Entity{
         attackDamage = 10 * level;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/red.jpg")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/orc_down.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
