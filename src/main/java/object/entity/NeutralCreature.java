@@ -12,7 +12,7 @@ public class NeutralCreature extends Entity{
     public NeutralCreature(GamePanel gp){
         super(gp);
 
-        name = "pig?";
+        name = "pig";
         direction = "down";
         speed = 1;
 
@@ -41,6 +41,5 @@ public class NeutralCreature extends Entity{
 
             actionInterval = 0;
         }
-
     }
 }

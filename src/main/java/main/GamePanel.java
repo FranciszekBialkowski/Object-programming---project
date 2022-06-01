@@ -1,12 +1,16 @@
 package main;
 
-import object.entity.Entity;
-import object.entity.Player;
+import object.entity.*;
 import object.Coin;
 import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -32,12 +36,22 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionDetection cDetection = new CollisionDetection(this);    // obsługa wykrywania kolizji
     public AssetSetter assetSetter = new AssetSetter(this); // obsługa ustawiania obiektów na mapie
     public UI ui = new UI(this);    // obsługa interfejsu użytkownika
+
+
     public Player player = new Player(this, keyH);   // obsługa zachowania gracza
     public Coin[] coins = new Coin[10]; // tablica monet
-    public Entity[] entities = new Entity[15]; // tablica stworzeń
+    public Entity[] aggressiveCreatures = new AggressiveCreature[10]; // tablica agresywnych stworzeń
+    public Entity[] neutralCreatures = new NeutralCreature[10]; // tablica neutralnych stworzeń
+    public Entity[] smallCreatures = new SmallCreature[10]; // tablica małych stworzeń
+    ArrayList<Entity> entityList = new ArrayList<>();
+
+    // stany gry
+    public int gameState;
+    public final int pauseState = 0;
+    public final int playState = 1;
 
 
-    public GamePanel() {
+    public GamePanel() throws IOException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -50,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         assetSetter.placeCoins();
         assetSetter.placeCreatures();
+        gameState = playState;
     }
 
     // uruchomienie wątku gry
@@ -91,16 +106,28 @@ public class GamePanel extends JPanel implements Runnable {
     // zaktualizowanie pozycji obiektów na planszy
     public void update() {
 
-        // Gracz
-        player.move();
+        if (gameState == playState) {
 
-        // Stworzenia
-        for (Entity entity : entities) {
-            if (entity != null) {
-                entity.move();
+            player.move();
+
+            for (Entity entity : aggressiveCreatures) {
+                if (entity != null) {
+                    entity.move();
+                }
+            }
+            for (Entity entity : neutralCreatures) {
+                if (entity != null) {
+                    entity.move();
+                }
+            }
+            for (Entity entity : smallCreatures) {
+                if (entity != null) {
+                    entity.move();
+                }
             }
         }
     }
+
 
     // narysowanie mapy i obiektów na podstawie aktualnych danych
     public void paintComponent(Graphics g) {
@@ -118,15 +145,42 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-        // Stworzenia
-        for (Entity entity : entities) {
+        // Lista obiektów poruszających się
+        entityList.add(player);
+
+        for (Entity entity : aggressiveCreatures) {
             if (entity != null) {
-                entity.draw(g2);
+                entityList.add(entity);
+            }
+        }
+        for (Entity entity : neutralCreatures) {
+            if (entity != null) {
+                entityList.add(entity);
+            }
+        }
+        for (Entity entity : smallCreatures) {
+            if (entity != null) {
+                entityList.add(entity);
             }
         }
 
-        // Gracz
-        player.draw(g2);
+        Collections.sort(entityList, new Comparator<Entity>() {
+            @Override
+            public int compare(Entity o1, Entity o2) {
+                return Integer.compare(o1.worldX, o2.worldY);
+            }
+        });
+
+        // narysowanie obiektów poruszających się
+        for (Entity entity : entityList) {
+            entity.draw(g2);
+        }
+
+        // wyczyszczenie listy
+        for (int i = 0; i < entityList.size(); i++) {
+            entityList.remove(i);
+        }
+
 
         // UI
         ui.draw(g2);

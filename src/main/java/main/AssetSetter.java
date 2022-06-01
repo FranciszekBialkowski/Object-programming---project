@@ -1,7 +1,7 @@
 package main;
 
 import object.Coin;
-import object.entity.AgressiveCreature;
+import object.entity.AggressiveCreature;
 import object.entity.NeutralCreature;
 import object.entity.SmallCreature;
 
@@ -52,53 +52,53 @@ public class AssetSetter {
     // ustawienie stworzeń na mapie
     public void placeCreatures() {
 
-        gp.entities[0] = new NeutralCreature(gp);
-        gp.entities[0].worldX = 18 * gp.tileSize;
-        gp.entities[0].worldY = 3 * gp.tileSize;
+        gp.neutralCreatures[0] = new NeutralCreature(gp);
+        gp.neutralCreatures[0].worldX = 18 * gp.tileSize;
+        gp.neutralCreatures[0].worldY = 3 * gp.tileSize;
 
-        gp.entities[1] = new NeutralCreature(gp);
-        gp.entities[1].worldX = 44 * gp.tileSize;
-        gp.entities[1].worldY = 44 * gp.tileSize;
+        gp.neutralCreatures[1] = new NeutralCreature(gp);
+        gp.neutralCreatures[1].worldX = 44 * gp.tileSize;
+        gp.neutralCreatures[1].worldY = 44 * gp.tileSize;
 
-        gp.entities[2] = new NeutralCreature(gp);
-        gp.entities[2].worldX = 21 * gp.tileSize;
-        gp.entities[2].worldY = 25 * gp.tileSize;
+        gp.neutralCreatures[2] = new NeutralCreature(gp);
+        gp.neutralCreatures[2].worldX = 21 * gp.tileSize;
+        gp.neutralCreatures[2].worldY = 25 * gp.tileSize;
 
-        gp.entities[3] = new AgressiveCreature(gp, 1);
-        gp.entities[3].worldX = 27 * gp.tileSize;
-        gp.entities[3].worldY = 10 * gp.tileSize;
+        gp.aggressiveCreatures[0] = new AggressiveCreature(gp, 1);
+        gp.aggressiveCreatures[0].worldX = 27 * gp.tileSize;
+        gp.aggressiveCreatures[0].worldY = 10 * gp.tileSize;
 
-        gp.entities[4] = new AgressiveCreature(gp, 1);
-        gp.entities[4].worldX = 41 * gp.tileSize;
-        gp.entities[4].worldY = 33 * gp.tileSize;
+        gp.aggressiveCreatures[1] = new AggressiveCreature(gp, 1);
+        gp.aggressiveCreatures[1].worldX = 41 * gp.tileSize;
+        gp.aggressiveCreatures[1].worldY = 33 * gp.tileSize;
 
-        gp.entities[5] = new AgressiveCreature(gp, 1);
-        gp.entities[5].worldX = 28 * gp.tileSize;
-        gp.entities[5].worldY = 40 * gp.tileSize;
+        gp.aggressiveCreatures[2] = new AggressiveCreature(gp, 1);
+        gp.aggressiveCreatures[2].worldX = 28 * gp.tileSize;
+        gp.aggressiveCreatures[2].worldY = 40 * gp.tileSize;
 
-        gp.entities[6] = new AgressiveCreature(gp, 2);
-        gp.entities[6].worldX = 25 * gp.tileSize;
-        gp.entities[6].worldY = 15 * gp.tileSize;
+        gp.aggressiveCreatures[3] = new AggressiveCreature(gp, 2);
+        gp.aggressiveCreatures[3].worldX = 25 * gp.tileSize;
+        gp.aggressiveCreatures[3].worldY = 15 * gp.tileSize;
 
-        gp.entities[7] = new AgressiveCreature(gp, 2);
-        gp.entities[7].worldX = 47 * gp.tileSize;
-        gp.entities[7].worldY = 21 * gp.tileSize;
+        gp.aggressiveCreatures[4] = new AggressiveCreature(gp, 2);
+        gp.aggressiveCreatures[4].worldX = 47 * gp.tileSize;
+        gp.aggressiveCreatures[4].worldY = 21 * gp.tileSize;
 
-        gp.entities[8] = new AgressiveCreature(gp, 3);
-        gp.entities[8].worldX = 33 * gp.tileSize;
-        gp.entities[8].worldY = 31 * gp.tileSize;
+        gp.aggressiveCreatures[5] = new AggressiveCreature(gp, 3);
+        gp.aggressiveCreatures[5].worldX = 33 * gp.tileSize;
+        gp.aggressiveCreatures[5].worldY = 31 * gp.tileSize;
 
-        gp.entities[9] = new SmallCreature(gp);
-        gp.entities[9].worldX = 23 * gp.tileSize;
-        gp.entities[9].worldY = 10 * gp.tileSize;
+        gp.smallCreatures[0] = new SmallCreature(gp);
+        gp.smallCreatures[0].worldX = 23 * gp.tileSize;
+        gp.smallCreatures[0].worldY = 10 * gp.tileSize;
 
-        gp.entities[10] = new SmallCreature(gp);
-        gp.entities[10].worldX = 22 * gp.tileSize;
-        gp.entities[10].worldY = 28 * gp.tileSize;
+        gp.smallCreatures[1] = new SmallCreature(gp);
+        gp.smallCreatures[1].worldX = 22 * gp.tileSize;
+        gp.smallCreatures[1].worldY = 28 * gp.tileSize;
 
-        gp.entities[11] = new SmallCreature(gp);
-        gp.entities[11].worldX = 42 * gp.tileSize;
-        gp.entities[11].worldY = 39 * gp.tileSize;
+        gp.smallCreatures[2] = new SmallCreature(gp);
+        gp.smallCreatures[2].worldX = 42 * gp.tileSize;
+        gp.smallCreatures[2].worldY = 39 * gp.tileSize;
 
 
     }

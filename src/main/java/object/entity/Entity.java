@@ -17,11 +17,19 @@ public abstract class Entity implements IEntity {
     public int hitBoxDefaultX, hitBoxDefaultY;
     public boolean collisionOn = false;
     public int actionInterval = 0;
+    public boolean invisible = false;
+    public int invisibleCounter = 0;
+
+    // życie gracza
+    public int maxLife;
+    public int life;
+
 
     public Entity(GamePanel gp){
         this.gp = gp;
     }
 
+    @Override
     public void setAction(){}
 
     @Override
@@ -38,11 +46,21 @@ public abstract class Entity implements IEntity {
         interactCoin(coinIndex);
 
         // sprawdzenie kolizji z graczem
-        gp.cDetection.checkPlayer(this);
+        boolean playerCollision = gp.cDetection.checkPlayer(this);
+        interactPlayer(playerCollision);
 
-        // sprawdzenie kolizji ze stworzeniem
-        int entityIndex = gp.cDetection.checkEntity(this, gp.entities);
-        interactEntity(entityIndex);
+        // sprawdzenie kolizji z agresywnym stworzeniem
+        int aggressiveCreatureIndex = gp.cDetection.checkEntity(this, gp.aggressiveCreatures);
+        interactAggressiveCreature(aggressiveCreatureIndex);
+
+        // sprawdzenie kolizji z neutralnym stworzeniem
+        int neutralCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
+        interactNeutralCreature(neutralCreatureIndex);
+
+        // sprawdzenie kolizji z małym stworzeniem
+        int smallCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
+        interactSmallCreature(smallCreatureIndex);
+
 
         // jeśli kolizja nie wystąpiła, stworzenie może się poruszyć
         if (!collisionOn) {
@@ -59,9 +77,21 @@ public abstract class Entity implements IEntity {
     @Override
     public void interactCoin(int i){}
 
-    // interakcja przy kolizji ze stworzeniem
+    // interakcja przy kolizji z agresywnym stworzeniem
     @Override
-    public void interactEntity(int i){}
+    public void interactAggressiveCreature(int i){}
+
+    // interakcja przy kolizji z neutralnym stworzeniem
+    @Override
+    public void interactNeutralCreature(int i){}
+
+    // interakcja przy kolizji z małym stworzeniem
+    @Override
+    public void interactSmallCreature(int i){}
+
+    // interakcja przy kolizji z graczem
+    @Override
+    public void interactPlayer(boolean c){}
 
     // narysowanie stworzenia
     @Override

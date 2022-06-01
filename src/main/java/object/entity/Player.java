@@ -1,5 +1,6 @@
 package object.entity;
 
+import main.EventFight;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -30,12 +31,12 @@ public class Player extends Entity{
         name = "Player";
 
         hitBox = new Rectangle();
-        hitBox.x = 0;
-        hitBox.y = 0;
+        hitBox.x = 4;
+        hitBox.y = 4;
         hitBoxDefaultX = hitBox.x;
         hitBoxDefaultY = hitBox.y;
-        hitBox.width = 47;
-        hitBox.height = 47;
+        hitBox.width = 32;
+        hitBox.height = 36;
 
         setDefaultValues();
     }
@@ -46,12 +47,17 @@ public class Player extends Entity{
         worldY= gp.tileSize * 25;
         speed = 4;
 
+        // życie
+        maxLife = 3;
+        life = maxLife;
+
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/fireMage_down.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
     }
+
 
     // zaktualizowanie pozycji postaci
     @Override
@@ -78,9 +84,17 @@ public class Player extends Entity{
         int coinIndex = gp.cDetection.checkCoin(this);
         interactCoin(coinIndex);
 
-        // sprawdzenie kolizji ze stworzeniem
-        int entityIndex = gp.cDetection.checkEntity(this,gp.entities);
-        interactEntity(entityIndex);
+        // sprawdzenie kolizji z agresywnym stworzeniem
+        int aggressiveCreatureIndex = gp.cDetection.checkEntity(this, gp.aggressiveCreatures);
+        interactAggressiveCreature(aggressiveCreatureIndex);
+
+        // sprawdzenie kolizji z neutralnym stworzeniem
+        int neutralCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
+        interactNeutralCreature(neutralCreatureIndex);
+
+        // sprawdzenie kolizji z małym stworzeniem
+        int smallCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
+        interactSmallCreature(smallCreatureIndex);
 
         // jeśli kolizja nie wystąpiła, gracz może się poruszyć
         if (!collisionOn) {
@@ -89,6 +103,15 @@ public class Player extends Entity{
                 case "left" -> worldX -= speed;
                 case "down" -> worldY += speed;
                 case "right" -> worldX += speed;
+            }
+        }
+
+        // tryb niewidzialny (po walce)
+        if (invisible){
+            invisibleCounter++;
+            if (invisibleCounter>60){
+                invisible = false;
+                invisibleCounter = 0;
             }
         }
     }
@@ -106,11 +129,22 @@ public class Player extends Entity{
         }
     }
 
-    // interakcja prz kolizji ze stworzeniem
+    // interakcja przy kolizji ze stworzeniem
     @Override
-    public void interactEntity(int i){
+    public void interactAggressiveCreature(int i){
         if (i != 999){
-            System.out.println("you are hitting an entity");
+            if (!invisible){
+                invisible = true;
+                new EventFight(gp);
+            }
+        }
+    }
+
+    // interakcja przy kolizji z małym stworzeniem
+    @Override
+    public void interactSmallCreature(int i){
+        if (i != 999){
+            gp.smallCreatures[i].interactPlayer(true);
         }
     }
 

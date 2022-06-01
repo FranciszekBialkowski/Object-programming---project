@@ -171,7 +171,10 @@ public class CollisionDetection {
     }
 
     // sprawdzenie kolizji z graczem
-    public void checkPlayer(Entity entity) {
+    public boolean checkPlayer(Entity entity) {
+
+        boolean playerCollision = false;
+
         entity.hitBox.x += entity.worldX;
         entity.hitBox.y += entity.worldY;
 
@@ -182,32 +185,27 @@ public class CollisionDetection {
         switch (entity.direction) {
             case "up" -> {
                 entity.hitBox.y -= entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)) {
-                    entity.collisionOn = true;
-                }
             }
             case "left" -> {
                 entity.hitBox.x -= entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)) {
-                    entity.collisionOn = true;
-                }
             }
             case "down" -> {
                 entity.hitBox.y += entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)) {
-                    entity.collisionOn = true;
-                }
             }
             case "right" -> {
                 entity.hitBox.x += entity.speed;
-                if (entity.hitBox.intersects(gp.player.hitBox)) {
-                    entity.collisionOn = true;
-                }
             }
         }
+        if (entity.hitBox.intersects(gp.player.hitBox)) {
+            entity.collisionOn = true;
+            playerCollision = true;
+        }
+
         entity.hitBox.x = entity.hitBoxDefaultX;
         entity.hitBox.y = entity.hitBoxDefaultY;
         gp.player.hitBox.x = gp.player.hitBoxDefaultX;
         gp.player.hitBox.y = gp.player.hitBoxDefaultY;
+
+        return playerCollision;
     }
 }
