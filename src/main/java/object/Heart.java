@@ -13,7 +13,7 @@ public class Heart {
     public BufferedImage image1;
     public BufferedImage image2;
 
-    public Heart(GamePanel gp) throws IOException {
+    public Heart(GamePanel gp) {
 
         this.gp = gp;
 

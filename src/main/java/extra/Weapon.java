@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Weapon extends Item{
 
-    int damage;
+    public int damage;
 
     public Weapon(){
         super();

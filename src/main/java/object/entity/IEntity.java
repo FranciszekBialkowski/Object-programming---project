@@ -12,9 +12,9 @@ public interface IEntity {
 
     void interactCoin(int i);
 
-    void interactAggressiveCreature(int i);
-    void interactNeutralCreature(int i);
-    void interactSmallCreature(int i);
+    void interactOrc(int i);
+    void interactPig(int i);
+    void interactRat(int i);
 
     void interactPlayer(boolean c);
 

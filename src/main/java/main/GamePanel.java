@@ -1,5 +1,7 @@
 package main;
 
+import extra.Armor;
+import extra.Weapon;
 import object.entity.*;
 import object.Coin;
 import tile.TileManager;
@@ -8,13 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 
 public class GamePanel extends JPanel implements Runnable {
 
-    // ustawienia okna
+    // ustawienia wymiarów
     final int originalTileSize = 16;
     final int scale = 3;
     public final int tileSize = originalTileSize * scale;
@@ -30,8 +30,12 @@ public class GamePanel extends JPanel implements Runnable {
     // klatki na sekundę
     final double FPS = 60.0;
 
+    public Weapon weapon = new Weapon();   // broń
+
+    public Armor armor = new Armor();  // zbroja
+
     TileManager tileManager = new TileManager(this);    // obsługa ładowania świata
-    KeyHandler keyH = new KeyHandler(); // obsługa reakcji na przyciski
+    public KeyHandler keyH = new KeyHandler(); // obsługa reakcji na przyciski
     Thread gameThread;  // wątek gry
     public CollisionDetection cDetection = new CollisionDetection(this);    // obsługa wykrywania kolizji
     public AssetSetter assetSetter = new AssetSetter(this); // obsługa ustawiania obiektów na mapie
@@ -40,10 +44,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Player player = new Player(this, keyH);   // obsługa zachowania gracza
     public Coin[] coins = new Coin[10]; // tablica monet
-    public Entity[] aggressiveCreatures = new AggressiveCreature[10]; // tablica agresywnych stworzeń
-    public Entity[] neutralCreatures = new NeutralCreature[10]; // tablica neutralnych stworzeń
-    public Entity[] smallCreatures = new SmallCreature[10]; // tablica małych stworzeń
+    public Entity[] orcs = new Orc[10]; // tablica orków
+    public Entity[] pigs = new Pig[10]; // tablica świń
+    public Entity[] rats = new Rat[10]; // tablica szczurów
     ArrayList<Entity> entityList = new ArrayList<>();
+
+    // liczniki
+    public int coinCounter=0;
+    public int orcCounter=0;
+    public int pigCounter=0;
+    public int ratCounter=0;
 
     // stany gry
     public int gameState;
@@ -64,6 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         assetSetter.placeCoins();
         assetSetter.placeCreatures();
+        setCounters();
         gameState = playState;
     }
 
@@ -71,6 +82,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void checkLose(){
+        if (player.life == 0){
+            System.out.println("GAME OVER");
+        }
     }
 
     // pętla gry
@@ -103,28 +120,59 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // ustawienie wartości liczników
+    public void setCounters(){
+        for (Coin coin : coins) {
+            if (coin != null) {
+                coinCounter++;
+            }
+        }
+        for (Entity orc : orcs){
+            if (orc != null){
+                orcCounter++;
+            }
+        }
+        for (Entity pig : pigs){
+            if (pig != null){
+                pigCounter++;
+            }
+        }
+        for (Entity rat : rats){
+            if (rat != null){
+                ratCounter++;
+            }
+        }
+    }
+
     // zaktualizowanie pozycji obiektów na planszy
     public void update() {
 
         if (gameState == playState) {
 
+
             player.move();
 
-            for (Entity entity : aggressiveCreatures) {
+            for (Entity entity : orcs) {
                 if (entity != null) {
                     entity.move();
                 }
             }
-            for (Entity entity : neutralCreatures) {
+            for (Entity entity : pigs) {
                 if (entity != null) {
                     entity.move();
                 }
             }
-            for (Entity entity : smallCreatures) {
+            for (Entity entity : rats) {
                 if (entity != null) {
                     entity.move();
                 }
             }
+
+            // odnowienie monet jeśli się skonczą
+            if (coinCounter==0){
+                assetSetter.placeCoins();
+            }
+
         }
     }
 
@@ -148,28 +196,23 @@ public class GamePanel extends JPanel implements Runnable {
         // Lista obiektów poruszających się
         entityList.add(player);
 
-        for (Entity entity : aggressiveCreatures) {
+        for (Entity entity : orcs) {
             if (entity != null) {
                 entityList.add(entity);
             }
         }
-        for (Entity entity : neutralCreatures) {
+        for (Entity entity : pigs) {
             if (entity != null) {
                 entityList.add(entity);
             }
         }
-        for (Entity entity : smallCreatures) {
+        for (Entity entity : rats) {
             if (entity != null) {
                 entityList.add(entity);
             }
         }
 
-        Collections.sort(entityList, new Comparator<Entity>() {
-            @Override
-            public int compare(Entity o1, Entity o2) {
-                return Integer.compare(o1.worldX, o2.worldY);
-            }
-        });
+        entityList.sort((o1, o2) -> Integer.compare(o1.worldX, o2.worldY));
 
         // narysowanie obiektów poruszających się
         for (Entity entity : entityList) {

@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
-public class SmallCreature extends Entity{
+public class Rat extends Entity {
 
-    public SmallCreature(GamePanel gp){
+    public Rat(GamePanel gp){
         super(gp);
 
-        name = "mouse";
+        name = "Szczur";
         direction = "up";
         speed = 3;
-//        hitBox.width = gp.tileSize/2-1;
-//        hitBox.height = gp.tileSize/2-1;
+        hitBox.width = gp.tileSize/2-1;
+        hitBox.height = gp.tileSize/2-1;
 
         try {
             image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/rat_down.png")));
@@ -46,18 +46,9 @@ public class SmallCreature extends Entity{
         }
     }
 
-    // podniesienie monety
+    // interakcja przy kolizji orkiem
     @Override
-    public void interactCoin(int i){
-
-        if (i != 999){
-            gp.coins[i] = null;
-        }
-    }
-
-    // interakcja przy kolizji z agresywnym stworzeniem
-    @Override
-    public void interactAggressiveCreature(int i){
+    public void interactOrc(int i){
         if (i != 999){
             switch (direction) {
                 case "up" -> direction = "down";
@@ -69,9 +60,9 @@ public class SmallCreature extends Entity{
         }
     }
 
-    // interakcja przy kolizji z neutralnym stworzeniem
+    // interakcja przy kolizji ze świnią
     @Override
-    public void interactNeutralCreature(int i){
+    public void interactPig(int i){
         if (i != 999){
             switch (direction) {
                 case "up" -> direction = "down";
@@ -83,9 +74,9 @@ public class SmallCreature extends Entity{
         }
     }
 
-    // interakcja przy kolizji z małym stworzeniem
+    // interakcja przy kolizji ze szczurem
     @Override
-    public void interactSmallCreature(int i){
+    public void interactRat(int i){
         if (i != 999){
             switch (direction) {
                 case "up" -> direction = "down";
@@ -97,6 +88,7 @@ public class SmallCreature extends Entity{
         }
     }
 
+    // interakcja przy kolizji z graczem
     @Override
     public void interactPlayer(boolean c) {
         if (c){

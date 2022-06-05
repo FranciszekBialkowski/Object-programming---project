@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     public boolean upClicked, downClicked, leftClicked, rightClicked;
+    public int code;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -14,7 +15,7 @@ public class KeyHandler implements KeyListener {
     // kliknięcie przycisku do poruszania się
     @Override
     public void keyPressed(KeyEvent e) {
-        int code = e.getKeyCode();
+        code = e.getKeyCode();
 
         if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             upClicked = true;

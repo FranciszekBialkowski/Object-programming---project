@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 public abstract class Entity implements IEntity {
 
     GamePanel gp;
+    public int level;
+    public int gold;
     public BufferedImage image;
     public int worldX, worldY;
     public int speed, maxHealth, health, attackDamage;
@@ -17,12 +19,13 @@ public abstract class Entity implements IEntity {
     public int hitBoxDefaultX, hitBoxDefaultY;
     public boolean collisionOn = false;
     public int actionInterval = 0;
-    public boolean invisible = false;
+    public boolean isInvisible = false;
     public int invisibleCounter = 0;
-
-    // życie gracza
     public int maxLife;
     public int life;
+    public String mage = "Fire Mage";
+    public int baseAD;
+    public int baseHP;
 
 
     public Entity(GamePanel gp){
@@ -50,16 +53,16 @@ public abstract class Entity implements IEntity {
         interactPlayer(playerCollision);
 
         // sprawdzenie kolizji z agresywnym stworzeniem
-        int aggressiveCreatureIndex = gp.cDetection.checkEntity(this, gp.aggressiveCreatures);
-        interactAggressiveCreature(aggressiveCreatureIndex);
+        int orcIndex = gp.cDetection.checkEntity(this, gp.orcs);
+        interactOrc(orcIndex);
 
         // sprawdzenie kolizji z neutralnym stworzeniem
-        int neutralCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
-        interactNeutralCreature(neutralCreatureIndex);
+        int pigIndex = gp.cDetection.checkEntity(this, gp.pigs);
+        interactPig(pigIndex);
 
         // sprawdzenie kolizji z małym stworzeniem
-        int smallCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
-        interactSmallCreature(smallCreatureIndex);
+        int ratIndex = gp.cDetection.checkEntity(this, gp.rats);
+        interactRat(ratIndex);
 
 
         // jeśli kolizja nie wystąpiła, stworzenie może się poruszyć
@@ -75,19 +78,24 @@ public abstract class Entity implements IEntity {
 
     // interakcja przy kolizji z monetą
     @Override
-    public void interactCoin(int i){}
+    public void interactCoin(int i){
+        if (i != 999){
+            gp.coins[i] = null;
+            gp.coinCounter--;
+        }
+    }
 
-    // interakcja przy kolizji z agresywnym stworzeniem
+    // interakcja przy kolizji z orkiem
     @Override
-    public void interactAggressiveCreature(int i){}
+    public void interactOrc(int i){}
 
-    // interakcja przy kolizji z neutralnym stworzeniem
+    // interakcja przy kolizji ze świnią
     @Override
-    public void interactNeutralCreature(int i){}
+    public void interactPig(int i){}
 
-    // interakcja przy kolizji z małym stworzeniem
+    // interakcja przy kolizji ze szczurem
     @Override
-    public void interactSmallCreature(int i){}
+    public void interactRat(int i){}
 
     // interakcja przy kolizji z graczem
     @Override

@@ -18,7 +18,7 @@ public class Player extends Entity{
     public final int screenY;
 
     // licznik monet
-    public int coinCounter = 0;
+    public int playerCoins = 0;
 
     public Player(GamePanel gp, KeyHandler keyH){
         super(gp);
@@ -45,14 +45,38 @@ public class Player extends Entity{
     public void setDefaultValues(){
         worldX = gp.tileSize * 27;
         worldY= gp.tileSize * 25;
-        speed = 4;
+
+        if (mage.equals("Fire Mage")){
+            baseHP = 50;
+            baseAD = 10;
+            speed = 3;
+        } else if (mage.equals("Ice Mage")) {
+            baseHP = 75;
+            baseAD = 5;
+            speed = 3;
+        } else {
+            baseHP = 50;
+            baseAD = 5;
+            speed = 4;
+        }
+
+        attackDamage = baseAD + gp.weapon.damage;
+        health = baseHP + gp.armor.health;
+        maxHealth = health;
+
 
         // życie
         maxLife = 3;
         life = maxLife;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/fireMage_down.png")));
+            if (mage.equals("Fire Mage")){
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/fireMage_down.png")));
+            } else if (mage.equals("Ice Mage")) {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/blue.jpg")));
+            } else {
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/yellow.jpg")));
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -84,17 +108,17 @@ public class Player extends Entity{
         int coinIndex = gp.cDetection.checkCoin(this);
         interactCoin(coinIndex);
 
-        // sprawdzenie kolizji z agresywnym stworzeniem
-        int aggressiveCreatureIndex = gp.cDetection.checkEntity(this, gp.aggressiveCreatures);
-        interactAggressiveCreature(aggressiveCreatureIndex);
+        // sprawdzenie kolizji z orkiem
+        int orcIndex = gp.cDetection.checkEntity(this, gp.orcs);
+        interactOrc(orcIndex);
 
-        // sprawdzenie kolizji z neutralnym stworzeniem
-        int neutralCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
-        interactNeutralCreature(neutralCreatureIndex);
+        // sprawdzenie kolizji ze świnią
+        int pigIndex = gp.cDetection.checkEntity(this, gp.pigs);
+        interactPig(pigIndex);
 
-        // sprawdzenie kolizji z małym stworzeniem
-        int smallCreatureIndex = gp.cDetection.checkEntity(this, gp.neutralCreatures);
-        interactSmallCreature(smallCreatureIndex);
+        // sprawdzenie kolizji ze szczurem
+        int ratIndex = gp.cDetection.checkEntity(this, gp.rats);
+        interactRat(ratIndex);
 
         // jeśli kolizja nie wystąpiła, gracz może się poruszyć
         if (!collisionOn) {
@@ -107,10 +131,10 @@ public class Player extends Entity{
         }
 
         // tryb niewidzialny (po walce)
-        if (invisible){
+        if (isInvisible){
             invisibleCounter++;
-            if (invisibleCounter>60){
-                invisible = false;
+            if (invisibleCounter>90){
+                isInvisible = false;
                 invisibleCounter = 0;
             }
         }
@@ -125,26 +149,27 @@ public class Player extends Entity{
             Random rand = new Random();
             random = rand.nextInt(1,5);
             gp.coins[i] = null;
-            coinCounter += random;
+            gp.coinCounter--;
+            playerCoins += random;
         }
     }
 
-    // interakcja przy kolizji ze stworzeniem
+    // interakcja przy kolizji z orkiem
     @Override
-    public void interactAggressiveCreature(int i){
+    public void interactOrc(int i){
         if (i != 999){
-            if (!invisible){
-                invisible = true;
-                new EventFight(gp);
+            if (!isInvisible){
+                isInvisible = true;
+                new EventFight(gp, gp.orcs[i]);
             }
         }
     }
 
-    // interakcja przy kolizji z małym stworzeniem
+    // interakcja przy kolizji ze szczurem
     @Override
-    public void interactSmallCreature(int i){
+    public void interactRat(int i){
         if (i != 999){
-            gp.smallCreatures[i].interactPlayer(true);
+            gp.rats[i].interactPlayer(true);
         }
     }
 

@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
 
-public class NeutralCreature extends Entity{
+public class Pig extends Entity{
 
-    public NeutralCreature(GamePanel gp){
+    public Pig(GamePanel gp){
         super(gp);
 
-        name = "pig";
+        name = "Świnia";
         direction = "down";
         speed = 1;
 
@@ -42,4 +42,6 @@ public class NeutralCreature extends Entity{
             actionInterval = 0;
         }
     }
+
+
 }

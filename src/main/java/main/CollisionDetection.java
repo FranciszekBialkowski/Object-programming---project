@@ -131,34 +131,15 @@ public class CollisionDetection {
                 target[i].hitBox.y += target[i].worldY;
 
                 switch (entity.direction) {
-                    case "up" -> {
-                        entity.hitBox.y -= entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
-                    }
-                    case "left" -> {
-                        entity.hitBox.x -= entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
-                    }
-                    case "down" -> {
-                        entity.hitBox.y += entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
-                    }
-                    case "right" -> {
-                        entity.hitBox.x += entity.speed;
-                        if (entity.hitBox.intersects(target[i].hitBox)) {
-                            entity.collisionOn = true;
-                            index = i;
-                        }
-                    }
+                    case "up" -> entity.hitBox.y -= entity.speed;
+                    case "left" -> entity.hitBox.x -= entity.speed;
+                    case "down" -> entity.hitBox.y += entity.speed;
+                    case "right" -> entity.hitBox.x += entity.speed;
+
+                }
+                if (entity.hitBox.intersects(target[i].hitBox)) {
+                    entity.collisionOn = true;
+                    index = i;
                 }
                 entity.hitBox.x = entity.hitBoxDefaultX;
                 entity.hitBox.y = entity.hitBoxDefaultY;
@@ -183,18 +164,10 @@ public class CollisionDetection {
 
 
         switch (entity.direction) {
-            case "up" -> {
-                entity.hitBox.y -= entity.speed;
-            }
-            case "left" -> {
-                entity.hitBox.x -= entity.speed;
-            }
-            case "down" -> {
-                entity.hitBox.y += entity.speed;
-            }
-            case "right" -> {
-                entity.hitBox.x += entity.speed;
-            }
+            case "up" -> entity.hitBox.y -= entity.speed;
+            case "left" -> entity.hitBox.x -= entity.speed;
+            case "down" -> entity.hitBox.y += entity.speed;
+            case "right" -> entity.hitBox.x += entity.speed;
         }
         if (entity.hitBox.intersects(gp.player.hitBox)) {
             entity.collisionOn = true;

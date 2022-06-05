@@ -14,7 +14,7 @@ public class UI {
     BufferedImage coinImage;
     BufferedImage heartFull, heartBlank;
 
-    public UI(GamePanel gp) throws IOException {
+    public UI(GamePanel gp) {
         this.gp = gp;
 
         calibri_40 = new Font("Forte", Font.PLAIN, 40);
@@ -33,7 +33,7 @@ public class UI {
         g2.setFont(calibri_40);
         g2.setColor(Color.white);
         g2.drawImage(coinImage, gp.tileSize / 2, gp.tileSize / 2, gp.tileSize, gp.tileSize, null);
-        g2.drawString("x " + gp.player.coinCounter, 80, 60);
+        g2.drawString("x " + gp.player.playerCoins, 80, 60);
 
         int i = 0;
         int x =0;

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Armor extends Item{
 
-    int health;
+    public int health;
 
     public Armor(){
         super();
