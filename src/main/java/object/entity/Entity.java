@@ -9,6 +9,7 @@ public abstract class Entity implements IEntity {
 
     GamePanel gp;
     public int level;
+
     public int gold;
     public BufferedImage image;
     public int worldX, worldY;
@@ -31,6 +32,12 @@ public abstract class Entity implements IEntity {
     public Entity(GamePanel gp){
         this.gp = gp;
     }
+
+    @Override
+    public  void setDefaultValues(){}
+
+    @Override
+    public  void setDefaultValues(int level){}
 
     @Override
     public void setAction(){}
@@ -63,6 +70,10 @@ public abstract class Entity implements IEntity {
         // sprawdzenie kolizji z małym stworzeniem
         int ratIndex = gp.cDetection.checkEntity(this, gp.rats);
         interactRat(ratIndex);
+
+        // sprawdzenie kolizji z kowadłem
+        int anvilIndex = gp.cDetection.checkEntity(this, gp.anvils);
+        interactAnvil(anvilIndex);
 
 
         // jeśli kolizja nie wystąpiła, stworzenie może się poruszyć
@@ -100,6 +111,10 @@ public abstract class Entity implements IEntity {
     // interakcja przy kolizji z graczem
     @Override
     public void interactPlayer(boolean c){}
+
+    // interakcja przy kolizji z kowadłem
+    @Override
+    public void interactAnvil(int i){}
 
     // narysowanie stworzenia
     @Override

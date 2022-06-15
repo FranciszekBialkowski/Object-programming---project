@@ -1,5 +1,6 @@
 package object.entity;
 
+import main.EventAnvil;
 import main.EventFight;
 import main.GamePanel;
 import main.KeyHandler;
@@ -37,8 +38,7 @@ public class Player extends Entity{
         hitBoxDefaultY = hitBox.y;
         hitBox.width = 32;
         hitBox.height = 36;
-
-        setDefaultValues();
+        
     }
 
     // ustawienie domyślnych wartości
@@ -71,11 +71,11 @@ public class Player extends Entity{
 
         try {
             if (mage.equals("Fire Mage")){
-                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/fireMage_down.png")));
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/fireMage.png")));
             } else if (mage.equals("Ice Mage")) {
-                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/blue.jpg")));
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/iceMage.png")));
             } else {
-                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/yellow.jpg")));
+                image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/lightningMage.png")));
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -119,6 +119,10 @@ public class Player extends Entity{
         // sprawdzenie kolizji ze szczurem
         int ratIndex = gp.cDetection.checkEntity(this, gp.rats);
         interactRat(ratIndex);
+
+        // sprawdzenie kolizji z kowadłem
+        int anvilIndex = gp.cDetection.checkEntity(this, gp.anvils);
+        interactAnvil(anvilIndex);
 
         // jeśli kolizja nie wystąpiła, gracz może się poruszyć
         if (!collisionOn) {
@@ -170,6 +174,15 @@ public class Player extends Entity{
     public void interactRat(int i){
         if (i != 999){
             gp.rats[i].interactPlayer(true);
+        }
+    }
+    @Override
+    public void interactAnvil(int i){
+        if (i != 999){
+            if (!isInvisible){
+                isInvisible = true;
+                new EventAnvil(gp, gp.armor, gp.weapon );
+            }
         }
     }
 

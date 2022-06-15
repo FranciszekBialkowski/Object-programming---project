@@ -13,22 +13,25 @@ public class Orc extends Entity {
     public Orc(GamePanel gp) {
         super(gp);
 
-        Random rand = new Random();
-
-        level = 10;
         name = "ork";
         direction = "left";
         speed = 2;
-        maxHealth = rand.nextInt(30,50) * level;
-        health = maxHealth;
-        attackDamage = rand.nextInt(3,7)* level;
-        gold = rand.nextInt(5, 11) * level;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/orc_down.png")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/orc.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setDefaultValues(int level){
+        this.level = level;
+        Random rand = new Random();
+        maxHealth = rand.nextInt(30,50) * level;
+        health = maxHealth;
+        attackDamage = rand.nextInt(7,15)* level;
+        gold = rand.nextInt(5, 11) * level;
     }
 
     // wylosowanie kierunku

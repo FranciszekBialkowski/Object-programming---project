@@ -1,6 +1,7 @@
 package main;
 
 import object.Coin;
+import object.entity.Anvil;
 import object.entity.Orc;
 import object.entity.Pig;
 import object.entity.Rat;
@@ -99,6 +100,10 @@ public class AssetSetter {
         gp.rats[2] = new Rat(gp);
         gp.rats[2].worldX = 42 * gp.tileSize;
         gp.rats[2].worldY = 39 * gp.tileSize;
+
+        gp.anvils[0] = new Anvil(gp);
+        gp.anvils[0].worldX = 34 * gp.tileSize;
+        gp.anvils[0].worldY = 24 * gp.tileSize;
 
 
     }

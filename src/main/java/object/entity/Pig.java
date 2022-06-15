@@ -17,7 +17,7 @@ public class Pig extends Entity{
         speed = 1;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/pig_down.png")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/pig.png")));
         }catch (IOException e){
             e.printStackTrace();
         }

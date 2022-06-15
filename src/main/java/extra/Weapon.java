@@ -1,12 +1,11 @@
 package extra;
 
+
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Weapon extends Item{
-
-    public int damage;
 
     public Weapon(){
         super();
@@ -14,17 +13,16 @@ public class Weapon extends Item{
         damage = 10;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/brown.jpg")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/staff.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
     }
 
-    // ulepszenie broni
     @Override
     public void upgrade() {
         level++;
-        upgradeCost *=2;
         damage += 10;
+        upgradeCost+=10;
     }
 }

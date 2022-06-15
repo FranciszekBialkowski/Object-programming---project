@@ -189,6 +189,7 @@ public class EventFight {
             for (int i = 0; i<gp.orcs.length; i++){
                 if (gp.orcs[i] == monster){
                     gp.orcs[i] = null;
+                    gp.orcCounter--;
                 }
             }
             gp.player.health = gp.player.maxHealth;

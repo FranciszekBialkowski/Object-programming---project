@@ -19,7 +19,7 @@ public class TileManager {
     public TileManager(GamePanel gp){
         this.gp = gp;
 
-        tiles = new Tile[10];
+        tiles = new Tile[12];
         mapTileNumbers = new int[gp.maxWorldColumn][gp.maxWorldRow];
 
         getTileImage();
@@ -58,6 +58,11 @@ public class TileManager {
             tiles[9] = new Tile();
             tiles[9].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/campfire_downright.png")));
             tiles[9].collision = true;
+            tiles[10] = new Tile();
+            tiles[10].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/wood.png")));
+            tiles[10].collision = true;
+            tiles[11] = new Tile();
+            tiles[11].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/lightWood.png")));
         } catch (IOException e){
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package extra;
 
+
 import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.Objects;
@@ -14,7 +15,7 @@ public class Armor extends Item{
         health = 10;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/yellow.jpg")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/robe.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -24,7 +25,7 @@ public class Armor extends Item{
     @Override
     public void upgrade() {
         level++;
-        upgradeCost *=2;
         health += 10;
+        upgradeCost += 10;
     }
 }

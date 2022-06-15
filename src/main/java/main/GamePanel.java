@@ -8,6 +8,8 @@ import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -35,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Armor armor = new Armor();  // zbroja
 
     TileManager tileManager = new TileManager(this);    // obsługa ładowania świata
-    public KeyHandler keyH = new KeyHandler(); // obsługa reakcji na przyciski
+    public KeyHandler keyH = new KeyHandler(this); // obsługa reakcji na przyciski
     Thread gameThread;  // wątek gry
     public CollisionDetection cDetection = new CollisionDetection(this);    // obsługa wykrywania kolizji
     public AssetSetter assetSetter = new AssetSetter(this); // obsługa ustawiania obiektów na mapie
@@ -47,7 +49,9 @@ public class GamePanel extends JPanel implements Runnable {
     public Entity[] orcs = new Orc[10]; // tablica orków
     public Entity[] pigs = new Pig[10]; // tablica świń
     public Entity[] rats = new Rat[10]; // tablica szczurów
+    public Entity[] anvils = new Anvil[1];
     ArrayList<Entity> entityList = new ArrayList<>();
+
 
     // liczniki
     public int coinCounter=0;
@@ -57,8 +61,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     // stany gry
     public int gameState;
-    public final int pauseState = 0;
-    public final int playState = 1;
+    public final int pauseState = 1;
+    public final int playState = 2;
+    public final int menuState = 3;
+    public final int secondMenuState = 4;
+
+    // tablica zapisująca wartości liczników w epokach
+    ArrayList<String> dataList = new ArrayList<>();
+    int interval = 899;
+    int era = 1;
 
 
     public GamePanel() throws IOException {
@@ -75,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
         assetSetter.placeCoins();
         assetSetter.placeCreatures();
         setCounters();
-        gameState = playState;
+        gameState = menuState;
     }
 
     // uruchomienie wątku gry
@@ -86,7 +97,15 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void checkLose(){
         if (player.life == 0){
-            System.out.println("GAME OVER");
+            JOptionPane.showMessageDialog(null,"Straciłeś ostatnie życie - symulacja się kończy",
+                    "GAME OVER",JOptionPane.INFORMATION_MESSAGE);
+            try {
+                writeToFile();
+            } catch (IOException e){
+                throw new RuntimeException(e);
+            }
+
+            System.exit(0);
         }
     }
 
@@ -100,8 +119,6 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
             update();
             repaint();
-
-            if ((String.valueOf(System.nanoTime()).charAt(5)) == 0) new Coin();
 
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
@@ -167,67 +184,105 @@ public class GamePanel extends JPanel implements Runnable {
                     entity.move();
                 }
             }
+            for (Entity entity : anvils) {
+                if (entity != null) {
+                    entity.move();
+                }
+            }
 
             // odnowienie monet jeśli się skonczą
             if (coinCounter==0){
                 assetSetter.placeCoins();
             }
+        }
+        if (gameState == playState) updateDataList();
+    }
+    private void updateDataList() {
+        interval++;
 
+        if (interval == 900){
+            String text = String.format("|   %2d  |    %2d   |   %2d   |    %2d   |     %2d       |      %2d      |",era,
+                    orcCounter,pigCounter,ratCounter, weapon.level, armor.level);
+            dataList.add(text);
+            era++;
+            interval=0;
         }
     }
 
+        // narysowanie mapy i obiektów na podstawie aktualnych danych
+        public void paintComponent(Graphics g) {
 
-    // narysowanie mapy i obiektów na podstawie aktualnych danych
-    public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D) g;
 
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+            // widok menu
+            if(gameState == menuState || gameState == secondMenuState) {
+                ui.draw(g2);
+            }else{
 
-        // Mapa
-        tileManager.draw(g2);
+                // Mapa
+                tileManager.draw(g2);
 
-        // Monety
-        for (Coin coin : coins) {
-            if (coin != null) {
-                coin.draw(g2, this);
+                // Monety
+                for (Coin coin : coins) {
+                    if (coin != null) {
+                        coin.draw(g2, this);
+                    }
+                }
+
+                // Lista obiektów poruszających się
+                entityList.add(player);
+
+                for (Entity entity : orcs) {
+                    if (entity != null) {
+                        entityList.add(entity);
+                    }
+                }
+                for (Entity entity : pigs) {
+                    if (entity != null) {
+                        entityList.add(entity);
+                    }
+                }
+                for (Entity entity : rats) {
+                    if (entity != null) {
+                        entityList.add(entity);
+                    }
+                }
+                for (Entity entity : anvils) {
+                    if (entity != null) {
+                        entityList.add(entity);
+                    }
+                }
+
+                entityList.sort((o1, o2) -> Integer.compare(o1.worldX, o2.worldY));
+
+                // narysowanie obiektów poruszających się
+                for (Entity entity : entityList) {
+                    entity.draw(g2);
+                }
+
+                // wyczyszczenie listy
+                for (int i = 0; i < entityList.size(); i++) {
+                    entityList.remove(i);
+                }
+
+                // UI
+                ui.draw(g2);
+
+                g2.dispose();
             }
         }
-
-        // Lista obiektów poruszających się
-        entityList.add(player);
-
-        for (Entity entity : orcs) {
-            if (entity != null) {
-                entityList.add(entity);
-            }
+    public void writeToFile() throws IOException {
+        File file = new File("lastSimulationData.txt");
+        FileWriter fw = new FileWriter(file);
+        fw.write("epoka - 15 sekund symulacji\n\n");
+        fw.write("| epoka | orkowie | świnie | szczury | pozion broni | poziom zbroi |\n");
+        fw.write("====================================================================\n");
+        for (String row : dataList) {
+            fw.write(row);
+            fw.write("\n");
         }
-        for (Entity entity : pigs) {
-            if (entity != null) {
-                entityList.add(entity);
-            }
-        }
-        for (Entity entity : rats) {
-            if (entity != null) {
-                entityList.add(entity);
-            }
-        }
-
-        entityList.sort((o1, o2) -> Integer.compare(o1.worldX, o2.worldY));
-
-        // narysowanie obiektów poruszających się
-        for (Entity entity : entityList) {
-            entity.draw(g2);
-        }
-
-        // wyczyszczenie listy
-        for (int i = 0; i < entityList.size(); i++) {
-            entityList.remove(i);
-        }
-
-
-        // UI
-        ui.draw(g2);
-
-        g2.dispose();
+        fw.close();
     }
-}
+    }
+

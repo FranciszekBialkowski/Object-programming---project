@@ -20,7 +20,7 @@ public class Rat extends Entity {
         hitBox.height = gp.tileSize/2-1;
 
         try {
-            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/rat_down.png")));
+            image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/images/rat.png")));
         }catch (IOException e){
             e.printStackTrace();
         }
