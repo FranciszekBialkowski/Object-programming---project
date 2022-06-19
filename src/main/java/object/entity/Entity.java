@@ -7,34 +7,35 @@ import java.awt.image.BufferedImage;
 
 public abstract class Entity implements IEntity {
 
-    GamePanel gp;
+    protected GamePanel gp;
     public int level;
 
     public int gold;
-    public BufferedImage image;
+    BufferedImage image;
     public int worldX, worldY;
     public int speed, maxHealth, health, attackDamage;
     public String direction = "";
-    public String name;
     public Rectangle hitBox = new Rectangle(0,0,47,47);
     public int hitBoxDefaultX, hitBoxDefaultY;
     public boolean collisionOn = false;
-    public int actionInterval = 0;
-    public boolean isInvisible = false;
-    public int invisibleCounter = 0;
+    protected int actionInterval = 0;
+    protected boolean isInvisible = false;
+    protected int invisibleCounter = 0;
     public int maxLife;
     public int life;
     public String mage = "Fire Mage";
-    public int baseAD;
-    public int baseHP;
+    protected int baseAD;
+    protected int baseHP;
 
-
+    /**
+     * Konstruktor
+     */
     public Entity(GamePanel gp){
         this.gp = gp;
     }
 
     @Override
-    public  void setDefaultValues(){}
+    public void setDefaultValues(){}
 
     @Override
     public  void setDefaultValues(int level){}
@@ -87,7 +88,6 @@ public abstract class Entity implements IEntity {
         }
     }
 
-    // interakcja przy kolizji z monetą
     @Override
     public void interactCoin(int i){
         if (i != 999){
@@ -96,27 +96,21 @@ public abstract class Entity implements IEntity {
         }
     }
 
-    // interakcja przy kolizji z orkiem
     @Override
     public void interactOrc(int i){}
 
-    // interakcja przy kolizji ze świnią
     @Override
     public void interactPig(int i){}
 
-    // interakcja przy kolizji ze szczurem
     @Override
     public void interactRat(int i){}
 
-    // interakcja przy kolizji z graczem
     @Override
     public void interactPlayer(boolean c){}
 
-    // interakcja przy kolizji z kowadłem
     @Override
     public void interactAnvil(int i){}
 
-    // narysowanie stworzenia
     @Override
     public void draw(Graphics2D g2){
 

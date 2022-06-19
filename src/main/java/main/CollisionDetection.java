@@ -5,8 +5,11 @@ import object.entity.Entity;
 
 public class CollisionDetection {
 
-    GamePanel gp;
+    private final GamePanel gp;
 
+    /**
+     * Konstruktor
+     */
     public CollisionDetection(GamePanel gp) {
         this.gp = gp;
     }
@@ -65,7 +68,11 @@ public class CollisionDetection {
 
     }
 
-    // sprawdzenie kolizji z monetą
+    /**
+     * sprawdzenie kolizji z monetą
+     * @param entity stworzenie
+     * @return liczba mówiąca czy nastąpiła kolizja
+     */
     public int checkCoin(Entity entity) {
 
         int index = 999;
@@ -118,7 +125,12 @@ public class CollisionDetection {
         return index;
     }
 
-    // sprawdzenie kolizji ze stworzeniem
+    /**
+     * sprawdzenie kolizji ze stworzeniem
+     * @param entity stworzenie1
+     * @param target stworzenie2
+     * @return liczba mówiąca czy nastąpiła kolizja
+     */
     public int checkEntity(Entity entity, Entity[] target) {
         int index = 999;
 
@@ -151,7 +163,11 @@ public class CollisionDetection {
         return index;
     }
 
-    // sprawdzenie kolizji z graczem
+    /**
+     * sprawdzenie kolizji z graczem
+     * @param entity stworzenie
+     * @return informacja czy nastąpiła kolizja
+     */
     public boolean checkPlayer(Entity entity) {
 
         boolean playerCollision = false;

@@ -4,8 +4,7 @@ import java.awt.image.BufferedImage;
 
 public abstract class Item implements IItem{
 
-    public BufferedImage image;
-    public String name;
+    protected BufferedImage image;
     public int upgradeCost;
     public int level;
     public int damage;

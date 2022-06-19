@@ -10,10 +10,12 @@ import java.util.Random;
 
 public class Orc extends Entity {
 
+    /**
+     * Konstruktor
+     */
     public Orc(GamePanel gp) {
         super(gp);
 
-        name = "ork";
         direction = "left";
         speed = 2;
 
@@ -53,7 +55,6 @@ public class Orc extends Entity {
         }
     }
 
-    // podniesienie monety
     @Override
     public void interactCoin(int i){
 
@@ -67,7 +68,6 @@ public class Orc extends Entity {
         }
     }
 
-    // spotkanie gracza
     @Override
     public void interactPlayer(boolean c) {
         if (c && !gp.player.isInvisible) {
@@ -76,7 +76,6 @@ public class Orc extends Entity {
         }
     }
 
-    // interakcja przy kolizji ze świnią
     @Override
     public void interactPig(int i) {
         if (i != 999) {
@@ -85,7 +84,6 @@ public class Orc extends Entity {
         }
     }
 
-    // interakcja przy kolizji ze szczurem
     @Override
     public void interactRat(int i) {
         if (i != 999) {

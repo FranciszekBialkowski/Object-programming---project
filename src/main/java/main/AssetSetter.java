@@ -8,13 +8,18 @@ import object.entity.Rat;
 
 public class AssetSetter {
 
-    GamePanel gp;
+    private final GamePanel gp;
 
+    /**
+     * Konstruktor
+     */
     public AssetSetter(GamePanel gp) {
         this.gp = gp;
     }
 
-    // ustawienie monet na mapie
+    /**
+     * ustawienie monet na mapie
+     */
     public void placeCoins() {
 
         gp.coins[0] = new Coin();
@@ -50,7 +55,9 @@ public class AssetSetter {
         gp.coins[7].worldY = 35 * gp.tileSize;
     }
 
-    // ustawienie stworzeń na mapie
+    /**
+     * ustawienie stworzeń na mapie
+     */
     public void placeCreatures() {
 
         gp.pigs[0] = new Pig(gp);
@@ -100,12 +107,15 @@ public class AssetSetter {
         gp.rats[2] = new Rat(gp);
         gp.rats[2].worldX = 42 * gp.tileSize;
         gp.rats[2].worldY = 39 * gp.tileSize;
+    }
 
+    /**
+     * ustawienie kowadeł na mapie
+     */
+    public void placeAnvils() {
         gp.anvils[0] = new Anvil(gp);
         gp.anvils[0].worldX = 34 * gp.tileSize;
         gp.anvils[0].worldY = 24 * gp.tileSize;
-
-
     }
 
 

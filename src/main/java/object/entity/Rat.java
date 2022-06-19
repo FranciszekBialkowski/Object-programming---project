@@ -10,10 +10,12 @@ import java.util.Random;
 
 public class Rat extends Entity {
 
+    /**
+     * Konstruktor
+     */
     public Rat(GamePanel gp){
         super(gp);
 
-        name = "Szczur";
         direction = "up";
         speed = 3;
         hitBox.width = gp.tileSize/2-1;
@@ -26,7 +28,6 @@ public class Rat extends Entity {
         }
     }
 
-    // wylosowanie kierunku
     @Override
     public void setAction() {
 
@@ -46,7 +47,7 @@ public class Rat extends Entity {
         }
     }
 
-    // interakcja przy kolizji orkiem
+
     @Override
     public void interactOrc(int i){
         if (i != 999){
@@ -60,7 +61,6 @@ public class Rat extends Entity {
         }
     }
 
-    // interakcja przy kolizji ze świnią
     @Override
     public void interactPig(int i){
         if (i != 999){
@@ -74,7 +74,6 @@ public class Rat extends Entity {
         }
     }
 
-    // interakcja przy kolizji ze szczurem
     @Override
     public void interactRat(int i){
         if (i != 999){
@@ -88,7 +87,6 @@ public class Rat extends Entity {
         }
     }
 
-    // interakcja przy kolizji z graczem
     @Override
     public void interactPlayer(boolean c) {
         if (c){

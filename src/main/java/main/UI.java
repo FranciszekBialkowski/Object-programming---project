@@ -11,14 +11,22 @@ import java.util.Objects;
 
 public class UI {
 
-    GamePanel gp;
-    Font forte_40, forte_60;
-    BufferedImage coinImage;
-    BufferedImage heartFull, heartBlank, fireMage, iceMage, lightningMage;
-    Graphics2D g2;
+    private final GamePanel gp;
+    private final Font forte_40;
+    private Font forte_60;
+    private final BufferedImage coinImage;
+    private final BufferedImage heartFull;
+    private final BufferedImage heartBlank;
+    private BufferedImage fireMage;
+    private BufferedImage iceMage;
+    private BufferedImage lightningMage;
+    private Graphics2D g2;
 
     public int commandNum = 0;
 
+    /**
+     * Konstruktor
+     */
     public UI(GamePanel gp) {
         this.gp = gp;
 
@@ -26,14 +34,17 @@ public class UI {
         Coin coin = new Coin();
         coinImage = coin.image;
 
-        Heart heart = new Heart(gp);
+        Heart heart = new Heart();
         heartFull = heart.image1;
         heartBlank = heart.image2;
     }
 
 
-    // narysowanie interfejsów użytkownika na ekranie
-    public void draw(Graphics2D g2) {
+    /**
+     * narysowanie interfejsów użytkownika na ekranie
+     * @param g2 obiekt klasy Graphics2D
+     */
+    void draw(Graphics2D g2) {
         this.g2 = g2;
 
         if(gp.gameState == gp.menuState || gp.gameState == gp.secondMenuState){
@@ -64,8 +75,11 @@ public class UI {
         }
     }
 
-    // narysowanie menu głównego
-    public void drawMenuScreen(){
+
+    /**
+     * narysowanie menu głównego
+     */
+    private void drawMenuScreen(){
 
         if(gp.gameState == gp.menuState) {
             forte_60 = new Font("Forte", Font.PLAIN, 60);
@@ -157,7 +171,13 @@ public class UI {
             }
         }
     }
-    public int getXforCenteredText(String text){
+
+    /**
+     * znaleznienie współrzędnej x w jakiej należy umieścić tekst, aby był wycentrowany
+     * @param text tekst
+     * @return współrzędna x w jakiej należy umieścić tekst
+     */
+    private int getXforCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
         return gp.screenWidth/2 - length/2;
     }

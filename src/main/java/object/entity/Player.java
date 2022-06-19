@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class Player extends Entity{
 
-    KeyHandler keyH;
+    private final KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
@@ -21,6 +21,9 @@ public class Player extends Entity{
     // licznik monet
     public int playerCoins = 0;
 
+    /**
+     * Konstruktor
+     */
     public Player(GamePanel gp, KeyHandler keyH){
         super(gp);
 
@@ -29,7 +32,6 @@ public class Player extends Entity{
         screenX = gp.screenWidth/2 - gp.tileSize/2;
         screenY = gp.screenHeight/2 - gp.tileSize/2;
 
-        name = "Player";
 
         hitBox = new Rectangle();
         hitBox.x = 4;
@@ -41,7 +43,7 @@ public class Player extends Entity{
         
     }
 
-    // ustawienie domyślnych wartości
+
     public void setDefaultValues(){
         worldX = gp.tileSize * 27;
         worldY= gp.tileSize * 25;
@@ -83,7 +85,6 @@ public class Player extends Entity{
     }
 
 
-    // zaktualizowanie pozycji postaci
     @Override
     public void move(){
         if (keyH.upClicked){
@@ -144,7 +145,6 @@ public class Player extends Entity{
         }
     }
 
-    // podniesienie monety
     @Override
     public void interactCoin(int i){
 
@@ -158,7 +158,6 @@ public class Player extends Entity{
         }
     }
 
-    // interakcja przy kolizji z orkiem
     @Override
     public void interactOrc(int i){
         if (i != 999){
@@ -169,7 +168,6 @@ public class Player extends Entity{
         }
     }
 
-    // interakcja przy kolizji ze szczurem
     @Override
     public void interactRat(int i){
         if (i != 999){
@@ -181,7 +179,7 @@ public class Player extends Entity{
         if (i != 999){
             if (!isInvisible){
                 isInvisible = true;
-                new EventAnvil(gp, gp.armor, gp.weapon );
+                new EventAnvil(gp);
             }
         }
     }

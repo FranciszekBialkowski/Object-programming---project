@@ -17,11 +17,11 @@ import java.util.ArrayList;
 public class GamePanel extends JPanel implements Runnable {
 
     // ustawienia wymiarów
-    final int originalTileSize = 16;
-    final int scale = 3;
+    private final int originalTileSize = 16;
+    private final int scale = 3;
     public final int tileSize = originalTileSize * scale;
-    public final int maxScreenRow = 16;
-    public final int maxScreenColumn = 16;
+    private final int maxScreenRow = 16;
+    private final int maxScreenColumn = 16;
     public final int screenWidth = tileSize * maxScreenColumn;
     public final int screenHeight = tileSize * maxScreenRow;
 
@@ -29,28 +29,26 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldColumn = 50;
     public final int maxWorldRow = 50;
 
-    // klatki na sekundę
-    final double FPS = 60.0;
-
     public Weapon weapon = new Weapon();   // broń
 
     public Armor armor = new Armor();  // zbroja
 
     TileManager tileManager = new TileManager(this);    // obsługa ładowania świata
     public KeyHandler keyH = new KeyHandler(this); // obsługa reakcji na przyciski
-    Thread gameThread;  // wątek gry
+    private Thread gameThread;  // wątek gry
     public CollisionDetection cDetection = new CollisionDetection(this);    // obsługa wykrywania kolizji
     public AssetSetter assetSetter = new AssetSetter(this); // obsługa ustawiania obiektów na mapie
     public UI ui = new UI(this);    // obsługa interfejsu użytkownika
 
 
-    public Player player = new Player(this, keyH);   // obsługa zachowania gracza
+    public final Player player = new Player(this, keyH);   // obsługa zachowania gracza
+
     public Coin[] coins = new Coin[10]; // tablica monet
     public Entity[] orcs = new Orc[10]; // tablica orków
     public Entity[] pigs = new Pig[10]; // tablica świń
     public Entity[] rats = new Rat[10]; // tablica szczurów
-    public Entity[] anvils = new Anvil[1];
-    ArrayList<Entity> entityList = new ArrayList<>();
+    public Entity[] anvils = new Anvil[1]; // tablica kowadeł
+    ArrayList<Entity> entityList = new ArrayList<>(); // tablica wszystkich stworzeń
 
 
     // liczniki
@@ -67,11 +65,13 @@ public class GamePanel extends JPanel implements Runnable {
     public final int secondMenuState = 4;
 
     // tablica zapisująca wartości liczników w epokach
-    ArrayList<String> dataList = new ArrayList<>();
-    int interval = 899;
-    int era = 1;
+    private final ArrayList<String> dataList = new ArrayList<>();
+    private int interval = 899;
+    private int era = 1;
 
-
+    /**
+     * Konstruktor
+     */
     public GamePanel() throws IOException {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
@@ -80,22 +80,32 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
-    // ustawienie obiektów na mapie
-    public void setupGame() {
+
+    /**
+     * ustawienie obiektów na mapie
+     */
+    void setupGame() {
 
         assetSetter.placeCoins();
         assetSetter.placeCreatures();
+        assetSetter.placeAnvils();
         setCounters();
         gameState = menuState;
     }
 
-    // uruchomienie wątku gry
-    public void startGameThread() {
+
+    /**
+     * uruchomienie wątku gry
+     */
+    void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
     }
 
-    public void checkLose(){
+    /**
+     * sprawdzenie czy warunek przegranej jest prawdziwy
+     */
+    void checkLose(){
         if (player.life == 0){
             JOptionPane.showMessageDialog(null,"Straciłeś ostatnie życie - symulacja się kończy",
                     "GAME OVER",JOptionPane.INFORMATION_MESSAGE);
@@ -109,10 +119,14 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // pętla gry
+    /**
+     * pętla gry
+     */
     @Override
     public void run() {
 
+        // klatki na sekundę
+        double FPS = 60.0;
         double drawInterval = 1000000000 / FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
 
@@ -137,8 +151,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // ustawienie wartości liczników
-    public void setCounters(){
+
+    /**
+     * ustawienie wartości liczników
+     */
+    private void setCounters(){
         for (Coin coin : coins) {
             if (coin != null) {
                 coinCounter++;
@@ -161,11 +178,12 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // zaktualizowanie pozycji obiektów na planszy
-    public void update() {
+    /**
+     * zaktualizowanie pozycji obiektów na planszy
+     */
+    private void update() {
 
         if (gameState == playState) {
-
 
             player.move();
 
@@ -197,6 +215,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
         if (gameState == playState) updateDataList();
     }
+
+    /**
+     * odświeżenie listy statystyk
+     */
     private void updateDataList() {
         interval++;
 
@@ -209,69 +231,77 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-        // narysowanie mapy i obiektów na podstawie aktualnych danych
-        public void paintComponent(Graphics g) {
+    /**
+     * narysowanie mapy i obiektów na podstawie aktualnych danych
+     * @param g obiekt klasy Graphics
+     */
+    protected void paintComponent(Graphics g) {
 
-            super.paintComponent(g);
-            Graphics2D g2 = (Graphics2D) g;
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
 
-            // widok menu
-            if(gameState == menuState || gameState == secondMenuState) {
-                ui.draw(g2);
-            }else{
+        // widok menu
+        if(gameState == menuState || gameState == secondMenuState) {
+            ui.draw(g2);
+        }else{
 
-                // Mapa
-                tileManager.draw(g2);
+            // Mapa
+            tileManager.draw(g2);
 
-                // Monety
-                for (Coin coin : coins) {
-                    if (coin != null) {
-                        coin.draw(g2, this);
-                    }
+            // Monety
+            for (Coin coin : coins) {
+                if (coin != null) {
+                    coin.draw(g2, this);
                 }
-
-                // Lista obiektów poruszających się
-                entityList.add(player);
-
-                for (Entity entity : orcs) {
-                    if (entity != null) {
-                        entityList.add(entity);
-                    }
-                }
-                for (Entity entity : pigs) {
-                    if (entity != null) {
-                        entityList.add(entity);
-                    }
-                }
-                for (Entity entity : rats) {
-                    if (entity != null) {
-                        entityList.add(entity);
-                    }
-                }
-                for (Entity entity : anvils) {
-                    if (entity != null) {
-                        entityList.add(entity);
-                    }
-                }
-
-                entityList.sort((o1, o2) -> Integer.compare(o1.worldX, o2.worldY));
-
-                // narysowanie obiektów poruszających się
-                for (Entity entity : entityList) {
-                    entity.draw(g2);
-                }
-
-                // wyczyszczenie listy
-                for (int i = 0; i < entityList.size(); i++) {
-                    entityList.remove(i);
-                }
-
-                // UI
-                ui.draw(g2);
-
-                g2.dispose();
             }
+
+
+            // Lista obiektów poruszających się
+            entityList.add(player);
+
+            for (Entity entity : orcs) {
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+            for (Entity entity : pigs) {
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+            for (Entity entity : rats) {
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+            for (Entity entity : anvils) {
+                if (entity != null) {
+                    entityList.add(entity);
+                }
+            }
+
+            entityList.sort((o1, o2) -> Integer.compare(o1.worldX, o2.worldY));
+
+            // narysowanie obiektów poruszających się
+            for (Entity entity : entityList) {
+                entity.draw(g2);
+            }
+
+            // wyczyszczenie listy
+            for (int i = 0; i < entityList.size(); i++) {
+                entityList.remove(i);
+            }
+
+            // UI
+            ui.draw(g2);
+
+            g2.dispose();
         }
+    }
+
+    /**
+     * zapisanie danych z gry do pliku txt
+     */
     public void writeToFile() throws IOException {
         File file = new File("lastSimulationData.txt");
         FileWriter fw = new FileWriter(file);

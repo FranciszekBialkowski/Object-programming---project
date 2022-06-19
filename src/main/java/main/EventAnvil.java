@@ -1,8 +1,7 @@
 package main;
 
 import java.awt.Image;
-import extra.Armor;
-import extra.Weapon;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -14,27 +13,17 @@ import javax.swing.JFrame;
 
 public class EventAnvil {
 
-    Armor armor;
-    Weapon weapon;
-    GamePanel gp;
-    JFrame anvilWindow;
-    JButton upgradeStaffButton;
-    JButton upgradeRobeButton;
-    JButton exitButton;
-    JLabel upgradeStaffCostLabel;
-    JLabel upgradeRobeCostLabel;
-    JLabel armorHPLabel;
-    JLabel armorLVLLabel;
-    JLabel weaponDMGLabel;
-    JLabel weaponLVLLabel;
-    JLabel infoLabel;
-    JLabel staffPhoto;
-    JLabel robePhoto;
+    private final GamePanel gp;
+    private final JFrame anvilWindow;
+    private final JButton upgradeStaffButton;
+    private final JButton upgradeRobeButton;
+    private final JButton exitButton;
 
-    public EventAnvil(GamePanel gp, Armor armor, Weapon weapon) {
+    /**
+     * Konstruktor
+     */
+    public EventAnvil(GamePanel gp) {
         this.gp = gp;
-        this.armor = armor;
-        this.weapon = weapon;
 
         gp.gameState = gp.pauseState;
 
@@ -80,37 +69,37 @@ public class EventAnvil {
         anvilWindow.add(exitButton);
 
         // tekst z poziomem szaty
-        armorLVLLabel = new JLabel("Poziom szaty: " + gp.armor.level);
+        JLabel armorLVLLabel = new JLabel("Poziom szaty: " + gp.armor.level);
         armorLVLLabel.setBounds(340, 120, 150, 30);
         anvilWindow.add(armorLVLLabel);
 
         // tekst z poziomem różdżki
-        weaponLVLLabel = new JLabel("Poziom różdżki: " + gp.weapon.level);
+        JLabel weaponLVLLabel = new JLabel("Poziom różdżki: " + gp.weapon.level);
         weaponLVLLabel.setBounds(140, 120, 150, 30);
         anvilWindow.add(weaponLVLLabel);
 
         // tekst z pancerzem szaty
-        armorHPLabel = new JLabel("Pancerz szaty: " + gp.armor.health);
+        JLabel armorHPLabel = new JLabel("Pancerz szaty: " + gp.armor.health);
         armorHPLabel.setBounds(335, 150, 150, 30);
         anvilWindow.add(armorHPLabel);
 
         // tekst z obrażeniami różdżki
-        weaponDMGLabel = new JLabel("Obrażenia różdżki: " + gp.weapon.damage);
+        JLabel weaponDMGLabel = new JLabel("Obrażenia różdżki: " + gp.weapon.damage);
         weaponDMGLabel.setBounds(130, 150, 150, 30);
         anvilWindow.add(weaponDMGLabel);
 
         // tekst z kosztem ulepszenia różdżki
-        upgradeStaffCostLabel = new JLabel("Koszt ulepszenia różdżki: " + gp.weapon.upgradeCost);
+        JLabel upgradeStaffCostLabel = new JLabel("Koszt ulepszenia różdżki: " + gp.weapon.upgradeCost);
         upgradeStaffCostLabel.setBounds(110, 180, 170, 30);
         anvilWindow.add(upgradeStaffCostLabel);
 
         // tekst z kosztem ulepszenia szaty
-        upgradeRobeCostLabel = new JLabel("Koszt ulepszenia szaty: " + gp.armor.upgradeCost);
+        JLabel upgradeRobeCostLabel = new JLabel("Koszt ulepszenia szaty: " + gp.armor.upgradeCost);
         upgradeRobeCostLabel.setBounds(310, 180, 170, 30);
         anvilWindow.add(upgradeRobeCostLabel);
 
         // tekst informujący
-        infoLabel = new JLabel();
+        JLabel infoLabel = new JLabel();
         infoLabel.setForeground(Color.darkGray);
         infoLabel.setBounds(50,300,500,20);
         anvilWindow.add(infoLabel);
@@ -124,7 +113,7 @@ public class EventAnvil {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        staffPhoto = new JLabel("");
+        JLabel staffPhoto = new JLabel("");
         staffPhoto.setIcon(new ImageIcon(staffImage));
         staffPhoto.setBounds(170, 70, 100, 30);
         anvilWindow.getContentPane().add(staffPhoto);
@@ -136,14 +125,16 @@ public class EventAnvil {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        robePhoto = new JLabel("");
+        JLabel robePhoto = new JLabel("");
         robePhoto.setIcon(new ImageIcon(robeImage));
         robePhoto.setBounds(370, 70, 100, 30);
         anvilWindow.getContentPane().add(robePhoto);
     }
 
-    // ulepszenie różdżki
-    public void clickStaffUpgrade(){
+    /**
+     * Kliknięcie przycisku ulepszenia róźdżki
+     */
+    private void clickStaffUpgrade(){
         upgradeStaffButton.setEnabled(true);
         exitButton.setEnabled(true);
         Timer timer = new Timer(1, e -> {
@@ -153,8 +144,10 @@ public class EventAnvil {
         timer.start();
     }
 
-    // ulepszenie szaty
-    public void clickRobeUpgrade(){
+    /**
+     * Kliknięcie przycisku ulepszenia szaty
+     */
+    private void clickRobeUpgrade(){
         upgradeRobeButton.setEnabled(true);
         exitButton.setEnabled(true);
         Timer timer = new Timer(1, e -> {
@@ -164,8 +157,10 @@ public class EventAnvil {
         timer.start();
     }
 
-    // wynik ulepszenia różdżki
-    public void checkStaffUpgrade() {
+    /**
+     * sprawdzenie czy ulepszenie różdżki się powiodło
+     */
+    private void checkStaffUpgrade() {
         if (gp.player.playerCoins >= gp.weapon.upgradeCost) {
             JOptionPane.showMessageDialog(null, "Udało się ulepszyć różdżkę",
                     "Ulepszenie pomyślne", JOptionPane.INFORMATION_MESSAGE);
@@ -181,8 +176,10 @@ public class EventAnvil {
         }
     }
 
-    // wynik ulepszenia szaty
-    public void checkRobeUpgrade() {
+    /**
+     * sprawdzenie czy ulepszenie szaty się powiodło
+     */
+    private void checkRobeUpgrade() {
         if (gp.player.playerCoins >= gp.armor.upgradeCost) {
             JOptionPane.showMessageDialog(null,"Udało się ulepszyć szatę",
                     "Ulepszenie pomyślne",JOptionPane.INFORMATION_MESSAGE);
@@ -199,8 +196,10 @@ public class EventAnvil {
         }
     }
 
-    // wyjście z okna ulepszania
-    public void exit(){
+    /**
+     * wyjście z okna kowadła
+     */
+    private void exit(){
         gp.gameState = gp.playState;
         anvilWindow.dispose();
     }

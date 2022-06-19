@@ -8,19 +8,22 @@ import java.awt.*;
 
 public class EventFight {
 
-    GamePanel gp;
-    Entity monster;
-    JFrame fightWindow;
-    JButton attackButton;
-    JButton abilityButton;
-    JButton runButton;
-    JLabel playerHPLabel;
-    JLabel monsterHPLabel;
-    JLabel infoLabel;
-    boolean shield = false;
-    boolean freeze = false;
+    private final GamePanel gp;
+    private final Entity monster;
+    private final JFrame fightWindow;
+    private final JButton attackButton;
+    private final JButton abilityButton;
+    private final JButton runButton;
+    private final JLabel playerHPLabel;
+    private final JLabel monsterHPLabel;
+    private final JLabel infoLabel;
+    private boolean shield = false;
+    private boolean freeze = false;
 
 
+    /**
+     * Konstruktor
+     */
     public EventFight(GamePanel gp, Entity monster) {
         this.gp = gp;
         this.monster = monster;
@@ -83,8 +86,11 @@ public class EventFight {
         playerTurn();
     }
 
-    // wciśnięcie przycisku Atakuj
-    public void clickAttack() {
+
+    /**
+     * wciśnięcie przycisku Atakuj
+     */
+    private void clickAttack() {
         attackButton.setEnabled(false);
         abilityButton.setEnabled(false);
         runButton.setEnabled(false);
@@ -101,8 +107,10 @@ public class EventFight {
 
     }
 
-    // wciśnięcie przycisku Umiejętność
-    public void clickAbility(){
+    /**
+     * wciśnięcie przycisku Umiejętność
+     */
+    private void clickAbility(){
         attackButton.setEnabled(false);
         abilityButton.setEnabled(false);
         runButton.setEnabled(false);
@@ -135,16 +143,22 @@ public class EventFight {
 
     }
 
-    // Tura gracza
-    public void playerTurn() {
+
+    /**
+     * Tura gracza
+     */
+    private void playerTurn() {
         infoLabel.setText("Twoja tura");
         attackButton.setEnabled(true);
         abilityButton.setEnabled(true);
         runButton.setEnabled(true);
     }
 
-    // tura przeciwnika
-    public void monsterTurn() {
+
+    /**
+     * tura przeciwnika
+     */
+    private void monsterTurn() {
 
         infoLabel.setText("Tura przeciwnika");
         Timer timer = new Timer(1000, e -> {
@@ -170,8 +184,10 @@ public class EventFight {
 
     }
 
-    // sprawdzenie czy walka dobiegła końca
-    public void checkWin() {
+    /**
+     * sprawdzenie czy walka dobiegła końca
+     */
+    private void checkWin() {
         if (gp.player.health <= 0) {
             JOptionPane.showMessageDialog(null,"Przegrałeś walke i straciłeś życie",
                     "Przegrana",JOptionPane.INFORMATION_MESSAGE);
@@ -197,8 +213,10 @@ public class EventFight {
         }
     }
 
-    // wyjście z okna walki
-    public void exit(){
+    /**
+     * wyjście z okna walki
+     */
+    private void exit(){
         gp.gameState = gp.playState;
         gp.player.health = gp.player.maxHealth;
         monster.health = monster.maxHealth;

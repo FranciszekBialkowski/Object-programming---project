@@ -9,10 +9,12 @@ import java.util.Random;
 
 public class Pig extends Entity{
 
+    /**
+     * Konstruktor
+     */
     public Pig(GamePanel gp){
         super(gp);
 
-        name = "Świnia";
         direction = "down";
         speed = 1;
 
@@ -23,7 +25,6 @@ public class Pig extends Entity{
         }
     }
 
-    // wylosowanie kierunku
     @Override
     public void setAction() {
 

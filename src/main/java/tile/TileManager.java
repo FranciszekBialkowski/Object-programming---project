@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class TileManager {
 
-    GamePanel gp;
+    private final GamePanel gp;
     public Tile[] tiles;
     public int[][] mapTileNumbers;
 
@@ -26,7 +26,10 @@ public class TileManager {
         loadMap("/maps/map.txt");
     }
 
-    // przypisanie grafiki każdego rodzaju terenu
+
+    /**
+     * przypisanie grafiki każdego rodzaju terenu
+     */
     public void getTileImage(){
 
         try {
@@ -68,7 +71,12 @@ public class TileManager {
         }
     }
 
-    // załadowanie mapy z pliku tekstowego
+
+
+    /**
+     * załadowanie mapy z pliku tekstowego
+     * @param filePath scieżka pliku
+     */
     public void loadMap(String filePath){
 
         try {
@@ -103,7 +111,11 @@ public class TileManager {
         }
     }
 
-    // narysowanie terenu
+
+    /**
+     * narysowanie terenu
+     * @param g2 obiekt klasy Graphics2D
+     */
     public void draw(Graphics2D g2){
 
         int worldColumn = 0;

@@ -8,7 +8,9 @@ import java.util.Objects;
 
 public class Anvil extends Entity {
 
-    GamePanel gp;
+    /**
+     * Konstruktor
+     */
     public Anvil(GamePanel gp){
         super(gp);
 
@@ -19,11 +21,12 @@ public class Anvil extends Entity {
         }
     }
 
+
     @Override
     public void interactPlayer(boolean c) {
         if (c && !gp.player.isInvisible) {
             gp.player.isInvisible = true;
-            new EventAnvil(gp, gp.armor, gp.weapon);
+            new EventAnvil(gp);
         }
     }
 }

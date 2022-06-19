@@ -7,9 +7,11 @@ import java.util.Objects;
 
 public class Weapon extends Item{
 
+    /**
+     * Konstruktor
+     */
     public Weapon(){
         super();
-        name = "Staff";
         damage = 10;
 
         try {
@@ -19,6 +21,9 @@ public class Weapon extends Item{
         }
     }
 
+    /**
+     * ulepszenie broni
+     */
     @Override
     public void upgrade() {
         level++;

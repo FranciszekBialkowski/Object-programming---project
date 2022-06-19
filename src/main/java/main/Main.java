@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Main {
 
-    static GamePanel gamePanel;
+    private static GamePanel gamePanel;
     public static void main(String[] args) throws IOException {
 
 

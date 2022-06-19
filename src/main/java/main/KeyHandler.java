@@ -4,13 +4,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import object.entity.Entity;
 
+
 public class KeyHandler implements KeyListener {
 
     public boolean upClicked, downClicked, leftClicked, rightClicked;
-    public int code;
-    GamePanel gp;
-    int level;
+    private final GamePanel gp;
+    private int level;
 
+    /**
+     * Konstruktor
+     */
     public KeyHandler(GamePanel gp){
         this.gp = gp;
     }
@@ -19,10 +22,13 @@ public class KeyHandler implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-    // kliknięcie przycisku do poruszania się
+    /**
+     * kliknięcie przycisku do poruszania się
+     * @param e the event to be processed
+     */
     @Override
     public void keyPressed(KeyEvent e) {
-        code = e.getKeyCode();
+        int code = e.getKeyCode();
 
         if(gp.gameState == gp.menuState) {
 
@@ -91,7 +97,10 @@ public class KeyHandler implements KeyListener {
         }
     }
 
-    // puszczenie przycisku do poruszania się
+    /**
+     * puszczenie przycisku do poruszania się
+     * @param e the event to be processed
+     */
     @Override
     public void keyReleased(KeyEvent e) {
 

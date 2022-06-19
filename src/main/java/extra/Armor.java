@@ -9,9 +9,11 @@ public class Armor extends Item{
 
     public int health;
 
+    /**
+     * Konstruktor
+     */
     public Armor(){
         super();
-        name = "Robe";
         health = 10;
 
         try {
@@ -21,7 +23,9 @@ public class Armor extends Item{
         }
     }
 
-    // ulepszenie zbroi
+    /**
+     * ulepszenie zbroi
+     */
     @Override
     public void upgrade() {
         level++;
