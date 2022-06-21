@@ -14,7 +14,11 @@ public class CollisionDetection {
         this.gp = gp;
     }
 
-    // sprawdzenie kolizji z terenem
+
+    /**
+     * Sprawdzenie kolizji z terenem
+     * @param entity stworzenie
+     */
     public void checkTile(Entity entity) {
 
         // współrzędne granic hitboxu
@@ -71,7 +75,7 @@ public class CollisionDetection {
     /**
      * sprawdzenie kolizji z monetą
      * @param entity stworzenie
-     * @return liczba mówiąca czy nastąpiła kolizja
+     * @return liczba wskazująca z którym obiektem nastąpiła kolizja
      */
     public int checkCoin(Entity entity) {
 
@@ -129,7 +133,7 @@ public class CollisionDetection {
      * sprawdzenie kolizji ze stworzeniem
      * @param entity stworzenie1
      * @param target stworzenie2
-     * @return liczba mówiąca czy nastąpiła kolizja
+     * @return liczba wskazująca z którym obiektem nastąpiła kolizja
      */
     public int checkEntity(Entity entity, Entity[] target) {
         int index = 999;

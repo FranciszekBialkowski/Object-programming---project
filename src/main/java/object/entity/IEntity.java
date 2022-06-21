@@ -39,22 +39,22 @@ public interface IEntity {
 
     /**
      * interakcja przy spotkaniu z orkiem
-     * @param i liczba wskazująca czy nastąpiła kolizja
+     * @param i liczba wskazująca z którym obiektem nastąpiła kolizja
      */
     void interactOrc(int i);
     /**
      * interakcja przy spotkaniu ze świnią
-     * @param i liczba wskazująca czy nastąpiła kolizja
+     * @param i liczba wskazująca z którym obiektem nastąpiła kolizja
      */
     void interactPig(int i);
     /**
      * interakcja przy spotkaniu ze szczurem
-     * @param i liczba wskazująca czy nastąpiła kolizja
+     * @param i liczba wskazująca z którym obiektem nastąpiła kolizja
      */
     void interactRat(int i);
     /**
      * interakcja przy spotkaniu z kowadłem
-     * @param i liczba wskazująca czy nastąpiła kolizja
+     * @param i liczba wskazująca z którym obiektem nastąpiła kolizja
      */
     void interactAnvil(int i);
 

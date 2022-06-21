@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     TileManager tileManager = new TileManager(this);    // obsługa ładowania świata
     public KeyHandler keyH = new KeyHandler(this); // obsługa reakcji na przyciski
-    private Thread gameThread;  // wątek gry
+    public Thread gameThread;  // wątek gry
     public CollisionDetection cDetection = new CollisionDetection(this);    // obsługa wykrywania kolizji
     public AssetSetter assetSetter = new AssetSetter(this); // obsługa ustawiania obiektów na mapie
     public UI ui = new UI(this);    // obsługa interfejsu użytkownika
@@ -72,7 +72,7 @@ public class GamePanel extends JPanel implements Runnable {
     /**
      * Konstruktor
      */
-    public GamePanel() throws IOException {
+    public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
