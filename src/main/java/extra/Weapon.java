@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class Weapon extends Item{
 
+    public int damage;
+
     /**
      * Konstruktor
      */
