@@ -1,4 +1,1 @@
-# obiektoweProjekt
-Projekt z programowania obiektowego (II semestr)
-
-https://github.com/Franekskc/obiektoweProjekt
+Platform game created in Java for classes "Object programming"
